@@ -1,7 +1,7 @@
-/** Abhimanyu Talwar                                               **/
-/** https://github.com/talwarabhimanyu/                            **/
-/** Given a bitonic array, this code finds the pivot element.      **/
-/** The code doesn't check for bitonicity; it expects bitonicity.  **/
+/** Abhimanyu Talwar                                                         **/
+/** https://github.com/talwarabhimanyu/                                      **/
+/** Given a bitonic array, this code finds the pivot element in O(lgN) time. **/
+/** The code doesn't check for bitonicity; it expects bitonicity.            **/
 
 import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.StdIn;
