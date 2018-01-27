@@ -4,6 +4,7 @@
 /** in O(N lgN) time.                                                        **/
 
 import edu.princeton.cs.algs4.StdIn; 
+import edu.princeton.cs.algs4.StdOut; 
 import edu.princeton.cs.algs4.In;
 
 public class CountInversion {
@@ -11,38 +12,43 @@ public class CountInversion {
     public static void main(String[] args){
         In in = new In(args[0]);
         int n = in.readInt();
-        int[] inputArray = new int[n];
+        int[] inputArr = new int[n];
         for (int i = 0; i < n; i++) {
-            inputArray[i] = in.readInt();
+            inputArr[i] = in.readInt();
         }
-        //Iterative Merge Sort routine which also counts the number of 
-        //inversions during the Merge operation.
-        
-        //starting with subarrays of size 1, merge subarrays 2 at a time
-        //at each step subarray doubles in size, until only two subarays are left.
-        int countInv = 0;
-        int lo = 0;
-        for (int subArrSize = 1; subArrSize < 4; subArrSize *= 2) {
-            while (true) {
-                int mid = lo + subArrSize;
+        for (int subArrSize = 1; subArrSize < inputArr.length; subArrSize *= 2) {
+            int lo = 0;
+            while (lo < inputArr.length) {
+                int mid = lo + subArrSize - 1;  //mid refers to last element of first sub-array
                 int hi = Math.min(mid + subArrSize, n - 1);
-                merge(inputArray, lo, mid, hi);
+                merge(inputArr, lo, mid, hi);
                 lo = hi + 1;
             }
         }
+        StdOut.println("No. of inversions: " + countInv);
+        StdOut.println("Sorted Array:");
+        for (int i = 0; i < inputArr.length; i++) {StdOut.println(inputArr[i]);}
     }
-    private void merge(int[] a, int lo, int mid, int hi) {
-        int[] aux = new int[a.length];
+    private static void merge(int[] a, int lo, int mid, int hi) {
+        int[] aux = new int[hi - lo + 1];
         //Copy input array to the auxiliary array
-        for (int i = 0; i < a.length; i++) {
-            aux[i] = a[i];
+        for (int i = 0; i < aux.length; i++) {
+            aux[i] = a[i + lo];
         }
         //Merge sub-arrays
-        int i = lo;
-        int j = mid + 1;
-        int k = 0;
-        while (true) {
-            
+        int i = 0;
+        int auxmid = mid - lo;
+        int j = auxmid + 1;
+        int k = lo;
+        while ((i < (auxmid + 1)) && (j < aux.length)) {
+            if (aux[i] <= aux[j]) {
+                a[k++] = aux[i++];
+            } else {
+                a[k++] = aux[j++];
+                countInv += (auxmid - i +1);
+            }
         }
+        while (i < (auxmid + 1)) {a[k++] = aux[i++];}
+        while (j < aux.length) {a[k++] = aux[j++];}
     }
 }
